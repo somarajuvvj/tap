@@ -1,4 +1,4 @@
-SOURCE_IMAGE = os.getenv("SOURCE_IMAGE", default='public.ecr.aws/c0y3l7a5/somaraju-tap')
+SOURCE_IMAGE = os.getenv("SOURCE_IMAGE", default='public.ecr.aws/c0y3l7a5/somaraju-tap/build-service/tanzu-java-web-app-source')
 LOCAL_PATH = os.getenv("LOCAL_PATH", default='.')
 NAMESPACE = os.getenv("NAMESPACE", default='somtapdemo')
 
@@ -12,7 +12,7 @@ k8s_custom_deploy(
                " && kubectl get workload tanzu-java-web-app --namespace " + NAMESPACE + " -o yaml",
     delete_cmd="tanzu apps workload delete -f config/workload.yaml --namespace " + NAMESPACE + " --yes",
     deps=['pom.xml', './target/classes'],
-    image_selector='public.ecr.aws/c0y3l7a5/somaraju-tap' + NAMESPACE,
+    image_selector='public.ecr.aws/c0y3l7a5/somaraju-tap/build-service/tanzu-java-web-app-' + NAMESPACE,
     container_selector='workload',
     live_update=[
       sync('./target/classes', '/workspace/BOOT-INF/classes')
